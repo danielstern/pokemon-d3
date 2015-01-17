@@ -1,4 +1,4 @@
-var diameter = 2000,
+var diameter = 4000,
     format = d3.format(",d"),
     color = d3.scale.category20c();
 
@@ -13,111 +13,130 @@ var svg = d3.select("body").append("svg")
     .attr("class", "bubble");
 
 d3.csv('pokemon.csv',function(error,data){
-	console.table(data);
-	var node = svg.selectAll(".node")
-      .data(bubble.nodes(classes(root)))
+  console.table(data);
+  var node = svg.selectAll(".node")
+      .data(data)
       .enter().append("g")
       .attr("class", "node")
       .attr("transform", function(d) { 
-      	return "translate(" + d.height * 10 + ")"; 
+        return "translate(" + d.height * 100  + "," + d.weight +")"; 
       });
-});
-
-
-d3.json("pokemon.json", function(error, root) {
-	console.table(root);
-  var node = svg.selectAll(".node")
-      .data(bubble.nodes(classes(root))
-      .filter(function(d) { return !d.children; }))
-      // .each(function(d))
-    .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { 
-      	return "translate(" + d.attack * 10 + "," + d.defense * 10 + ")"; 
-      });
-
-  node.append("title")
-      .text(function(d) {
-       // return d.className + ": " + format(d.value); 
-       return d.name + ":: attack: " + d.attack;
-   });
 
   node.append("circle")
       .attr("r", function(d) { 
-      	// debugger;
-      	return d.attack / 4 + d.defense / 4;
+        return d.species_id / 10;
       })
       .style("fill", function(d) {
-         switch(d.type) {
-        	case "fire":
-        		return "red";
-        	break;
-        	case "grass":
-        		return "green";
-        	break;
-        	case "water":
-        		return "dodgerblue";
-        	break;
-        	case "electric":
-        		return "yellow";
-        	break;
-        	case "ice":
-        		return "white";
-        	break;
-        	case "normal":
-        		return "grey";
-        	break;
-        	case "ghost":
-        		return "pink";
-        	break;
-        	case "fighting":
-        		return "sienna";
-        	break;
-        	case "psychic":
-        		return "purple";
-        	break;
-        	case "rock":
-        		return "teal";
-        	break;
-        	case "ground":
-        		return "brown";
-        	break;
-        	case "dragon":
-        		return "orange";
-        	break;
-        	case "poison":
-        		return "chocolate";
-        	break;
-        	case "bug":
-        		return "lawngreen";
-        	break;
-        }
-       // return color(d.type); 
+        
+       return color(d.species_id); 
        // retirm c
-   });
+  });
 
-  node.append("text")
-      .attr("dy", ".2em")
-      .style("text-anchor", "middle")
-      .text(function(d) { return d.name; });
+  node.append("title")
+    .text(function(d){return d.identifier});
+
+  // node.append("text")
+  //     .attr("dy", ".2em")
+  //     .style("text-anchor", "middle")
+  //     .text(function(d) { return d.identifier; });
+
 });
+
+
+// d3.json("pokemon.json", function(error, root) {
+//  console.table(root);
+//   var node = svg.selectAll(".node")
+//       .data(bubble.nodes(classes(root))
+//       .filter(function(d) { return !d.children; }))
+//       // .each(function(d))
+//     .enter().append("g")
+//       .attr("class", "node")
+//       .attr("transform", function(d) { 
+//        return "translate(" + d.attack * 10 + "," + d.defense * 10 + ")"; 
+//       });
+
+//   node.append("title")
+//       .text(function(d) {
+//        // return d.className + ": " + format(d.value); 
+//        return d.name + ":: attack: " + d.attack;
+//    });
+
+//   node.append("circle")
+//       .attr("r", function(d) { 
+//        // debugger;
+//        return d.attack / 4 + d.defense / 4;
+//       })
+//       .style("fill", function(d) {
+//          switch(d.type) {
+//          case "fire":
+//            return "red";
+//          break;
+//          case "grass":
+//            return "green";
+//          break;
+//          case "water":
+//            return "dodgerblue";
+//          break;
+//          case "electric":
+//            return "yellow";
+//          break;
+//          case "ice":
+//            return "white";
+//          break;
+//          case "normal":
+//            return "grey";
+//          break;
+//          case "ghost":
+//            return "pink";
+//          break;
+//          case "fighting":
+//            return "sienna";
+//          break;
+//          case "psychic":
+//            return "purple";
+//          break;
+//          case "rock":
+//            return "teal";
+//          break;
+//          case "ground":
+//            return "brown";
+//          break;
+//          case "dragon":
+//            return "orange";
+//          break;
+//          case "poison":
+//            return "chocolate";
+//          break;
+//          case "bug":
+//            return "lawngreen";
+//          break;
+//         }
+//        // return color(d.type); 
+//        // retirm c
+//    });
+
+//   node.append("text")
+//       .attr("dy", ".2em")
+//       .style("text-anchor", "middle")
+//       .text(function(d) { return d.name; });
+// });
 
 // Returns a flattened hierarchy containing all leaf nodes under the root.
 function classes(root) {
   var classes = [];
 
   function recurse(name, node) {
-  	// debugger;/
-  	_.each(node,function(pokemon){
-  		// debugger;
-  		classes.push(pokemon)
-  	})
+    debugger;
+    _.each(node,function(pokemon){
+      // debugger;
+      classes.push(pokemon)
+    })
     // if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
     // else classes.push({packageName: name, className: node.name, value: node.size});
   }
 
-  recurse(null, root);
-  return {children: classes};
+  // recurse(null, root);
+  return pokemoon;
 }
 
 d3.select(self.frameElement).style("height", diameter + "px");

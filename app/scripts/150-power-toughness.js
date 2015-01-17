@@ -21,6 +21,18 @@ d3.csv('pokemon.csv',function(error,data){
       .attr("transform", function(d) { 
       	return "translate(" + d.height * 10 + ")"; 
       });
+
+       node.append("circle")
+      .attr("r", function(d) { 
+      	// debugger;
+      	return d.attack / 4 + d.defense / 4;
+      })
+      .style("fill", function(d) {
+        
+       return color(d.type); 
+       // retirm c
+   });
+
 });
 
 
